@@ -20,6 +20,10 @@ class ModelBase(ABC):
         self.model_attn_modules = self._get_attn_modules()
         self.model_mlp_modules = self._get_mlp_modules()
 
+    def get_kl_threshold(self):
+        """Return the KL divergence threshold for direction selection. Override in subclasses if needed."""
+        return 0.1  # Default threshold
+
     def del_model(self):
         if hasattr(self, 'model') and self.model is not None:
             del self.model

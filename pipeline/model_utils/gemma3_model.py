@@ -125,3 +125,7 @@ class Gemma3Model(ModelBase):
     
     def _get_act_add_mod_fn(self, direction: Float[Tensor, "d_model"], coeff, layer):
         return functools.partial(act_add_gemma3_weights, direction=direction, coeff=coeff, layer=layer)
+
+    def get_kl_threshold(self):
+        """Gemma 3 has larger activation norms, requiring a higher KL threshold."""
+        return 15.0
