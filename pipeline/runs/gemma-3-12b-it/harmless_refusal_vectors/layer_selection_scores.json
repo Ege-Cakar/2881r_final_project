@@ -1,0 +1,245 @@
+{
+  "baseline_refusal_score": -17.99728012084961,
+  "per_layer_scores": [
+    {
+      "layer": 38,
+      "steering_score": -16.984027862548828,
+      "improvement_over_baseline": 1.0132522583007812
+    },
+    {
+      "layer": 35,
+      "steering_score": -17.216182708740234,
+      "improvement_over_baseline": 0.781097412109375
+    },
+    {
+      "layer": 40,
+      "steering_score": -17.231395721435547,
+      "improvement_over_baseline": 0.7658843994140625
+    },
+    {
+      "layer": 41,
+      "steering_score": -17.234724044799805,
+      "improvement_over_baseline": 0.7625560760498047
+    },
+    {
+      "layer": 31,
+      "steering_score": -17.23690414428711,
+      "improvement_over_baseline": 0.7603759765625
+    },
+    {
+      "layer": 33,
+      "steering_score": -17.40057945251465,
+      "improvement_over_baseline": 0.5967006683349609
+    },
+    {
+      "layer": 39,
+      "steering_score": -17.497079849243164,
+      "improvement_over_baseline": 0.5002002716064453
+    },
+    {
+      "layer": 37,
+      "steering_score": -17.515316009521484,
+      "improvement_over_baseline": 0.481964111328125
+    },
+    {
+      "layer": 29,
+      "steering_score": -17.601003646850586,
+      "improvement_over_baseline": 0.39627647399902344
+    },
+    {
+      "layer": 43,
+      "steering_score": -17.601503372192383,
+      "improvement_over_baseline": 0.39577674865722656
+    },
+    {
+      "layer": 30,
+      "steering_score": -17.639612197875977,
+      "improvement_over_baseline": 0.3576679229736328
+    },
+    {
+      "layer": 36,
+      "steering_score": -17.687824249267578,
+      "improvement_over_baseline": 0.30945587158203125
+    },
+    {
+      "layer": 24,
+      "steering_score": -17.69076919555664,
+      "improvement_over_baseline": 0.30651092529296875
+    },
+    {
+      "layer": 42,
+      "steering_score": -17.735607147216797,
+      "improvement_over_baseline": 0.2616729736328125
+    },
+    {
+      "layer": 23,
+      "steering_score": -17.758007049560547,
+      "improvement_over_baseline": 0.2392730712890625
+    },
+    {
+      "layer": 32,
+      "steering_score": -17.779170989990234,
+      "improvement_over_baseline": 0.218109130859375
+    },
+    {
+      "layer": 25,
+      "steering_score": -17.806976318359375,
+      "improvement_over_baseline": 0.19030380249023438
+    },
+    {
+      "layer": 27,
+      "steering_score": -17.83111572265625,
+      "improvement_over_baseline": 0.16616439819335938
+    },
+    {
+      "layer": 46,
+      "steering_score": -17.832115173339844,
+      "improvement_over_baseline": 0.16516494750976562
+    },
+    {
+      "layer": 17,
+      "steering_score": -17.85260009765625,
+      "improvement_over_baseline": 0.14468002319335938
+    },
+    {
+      "layer": 21,
+      "steering_score": -17.867399215698242,
+      "improvement_over_baseline": 0.1298809051513672
+    },
+    {
+      "layer": 22,
+      "steering_score": -17.886140823364258,
+      "improvement_over_baseline": 0.11113929748535156
+    },
+    {
+      "layer": 26,
+      "steering_score": -17.887605667114258,
+      "improvement_over_baseline": 0.10967445373535156
+    },
+    {
+      "layer": 20,
+      "steering_score": -17.90534210205078,
+      "improvement_over_baseline": 0.09193801879882812
+    },
+    {
+      "layer": 19,
+      "steering_score": -17.91141128540039,
+      "improvement_over_baseline": 0.08586883544921875
+    },
+    {
+      "layer": 44,
+      "steering_score": -17.91469383239746,
+      "improvement_over_baseline": 0.08258628845214844
+    },
+    {
+      "layer": 45,
+      "steering_score": -17.919963836669922,
+      "improvement_over_baseline": 0.0773162841796875
+    },
+    {
+      "layer": 0,
+      "steering_score": -17.962810516357422,
+      "improvement_over_baseline": 0.0344696044921875
+    },
+    {
+      "layer": 7,
+      "steering_score": -17.963333129882812,
+      "improvement_over_baseline": 0.033946990966796875
+    },
+    {
+      "layer": 18,
+      "steering_score": -17.96411895751953,
+      "improvement_over_baseline": 0.033161163330078125
+    },
+    {
+      "layer": 34,
+      "steering_score": -17.966835021972656,
+      "improvement_over_baseline": 0.030445098876953125
+    },
+    {
+      "layer": 8,
+      "steering_score": -17.971866607666016,
+      "improvement_over_baseline": 0.02541351318359375
+    },
+    {
+      "layer": 12,
+      "steering_score": -17.978233337402344,
+      "improvement_over_baseline": 0.019046783447265625
+    },
+    {
+      "layer": 6,
+      "steering_score": -17.98331069946289,
+      "improvement_over_baseline": 0.01396942138671875
+    },
+    {
+      "layer": 2,
+      "steering_score": -17.990211486816406,
+      "improvement_over_baseline": 0.007068634033203125
+    },
+    {
+      "layer": 28,
+      "steering_score": -17.99570655822754,
+      "improvement_over_baseline": 0.0015735626220703125
+    },
+    {
+      "layer": 14,
+      "steering_score": -17.99680519104004,
+      "improvement_over_baseline": 0.0004749298095703125
+    },
+    {
+      "layer": 16,
+      "steering_score": -17.998477935791016,
+      "improvement_over_baseline": -0.00119781494140625
+    },
+    {
+      "layer": 1,
+      "steering_score": -18.00162124633789,
+      "improvement_over_baseline": -0.00434112548828125
+    },
+    {
+      "layer": 5,
+      "steering_score": -18.002887725830078,
+      "improvement_over_baseline": -0.00560760498046875
+    },
+    {
+      "layer": 47,
+      "steering_score": -18.00419044494629,
+      "improvement_over_baseline": -0.0069103240966796875
+    },
+    {
+      "layer": 3,
+      "steering_score": -18.0101261138916,
+      "improvement_over_baseline": -0.012845993041992188
+    },
+    {
+      "layer": 15,
+      "steering_score": -18.019248962402344,
+      "improvement_over_baseline": -0.021968841552734375
+    },
+    {
+      "layer": 4,
+      "steering_score": -18.022655487060547,
+      "improvement_over_baseline": -0.0253753662109375
+    },
+    {
+      "layer": 13,
+      "steering_score": -18.046703338623047,
+      "improvement_over_baseline": -0.0494232177734375
+    },
+    {
+      "layer": 9,
+      "steering_score": -18.061025619506836,
+      "improvement_over_baseline": -0.06374549865722656
+    },
+    {
+      "layer": 10,
+      "steering_score": -18.126737594604492,
+      "improvement_over_baseline": -0.1294574737548828
+    },
+    {
+      "layer": 11,
+      "steering_score": -18.15066146850586,
+      "improvement_over_baseline": -0.15338134765625
+    }
+  ]
+}

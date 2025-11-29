@@ -1,0 +1,15 @@
+{
+  "n_queries": 20,
+  "n_completions_per_query": 10,
+  "n_compliant_responses_generated": 200,
+  "n_refusal_responses_generated": 200,
+  "n_compliant_responses_kept": 200,
+  "n_refusal_responses_kept": 185,
+  "compliant_filter_rate": 1.0,
+  "refusal_filter_rate": 0.925,
+  "seed": 42,
+  "vector_shape": [
+    48,
+    3840
+  ]
+}

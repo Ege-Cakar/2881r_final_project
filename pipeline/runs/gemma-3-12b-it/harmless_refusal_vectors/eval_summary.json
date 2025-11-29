@@ -1,0 +1,24 @@
+{
+  "model_path": "google/gemma-3-12b-it",
+  "vector_dir": "pipeline/runs/gemma-3-12b-it/harmless_refusal_vectors",
+  "validation_seed": 200,
+  "test_seed": 100,
+  "n_validation_samples": 32,
+  "n_test_samples": 20,
+  "selected_layer": 38,
+  "layer_selection_method": "steering_based",
+  "baseline_refusal_score": -17.99728012084961,
+  "selected_layer_steering_score": -16.984027862548828,
+  "results_by_coefficient": {
+    "0.0": {
+      "refusal_count": 0,
+      "total_count": 20,
+      "refusal_rate": 0.0
+    },
+    "1.0": {
+      "refusal_count": 0,
+      "total_count": 20,
+      "refusal_rate": 0.0
+    }
+  }
+}
