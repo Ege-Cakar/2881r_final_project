@@ -19,9 +19,20 @@ def get_mean_activations(model, tokenizer, instructions, tokenize_instructions_f
     torch.cuda.empty_cache()
 
     n_positions = len(positions)
-    n_layers = model.config.num_hidden_layers
     n_samples = len(instructions)
-    d_model = model.config.hidden_size
+
+    model_config = model.config
+    # Handle both text-only and multimodal Gemma 3 models
+    # Multimodal models have text_config, text-only models have config directly
+    if hasattr(model_config, 'text_config'):
+        # Multimodal model (Gemma3ForConditionalGeneration)
+        n_layers = model_config.text_config.num_hidden_layers
+        d_model = model_config.text_config.hidden_size
+    else:
+        # Text-only model (Gemma3ForCausalLM) or other models
+        n_layers = model_config.num_hidden_layers
+        d_model = model_config.hidden_size
+
 
     # we store the mean activations in high-precision to avoid numerical issues
     mean_activations = torch.zeros((n_positions, n_layers, d_model), dtype=torch.float64, device=model.device)
@@ -53,7 +64,19 @@ def generate_directions(model_base: ModelBase, harmful_instructions, harmless_in
 
     mean_diffs = get_mean_diff(model_base.model, model_base.tokenizer, harmful_instructions, harmless_instructions, model_base.tokenize_instructions_fn, model_base.model_block_modules, positions=list(range(-len(model_base.eoi_toks), 0)))
 
-    assert mean_diffs.shape == (len(model_base.eoi_toks), model_base.model.config.num_hidden_layers, model_base.model.config.hidden_size)
+    model_config = model_base.model.config
+    # Handle both text-only and multimodal Gemma 3 models
+    # Multimodal models have text_config, text-only models have config directly
+    if hasattr(model_config, 'text_config'):
+        # Multimodal model (Gemma3ForConditionalGeneration)
+        n_layers = model_config.text_config.num_hidden_layers
+        d_model = model_config.text_config.hidden_size
+    else:
+        # Text-only model (Gemma3ForCausalLM) or other models
+        n_layers = model_config.num_hidden_layers
+        d_model = model_config.hidden_size
+
+    assert mean_diffs.shape == (len(model_base.eoi_toks), n_layers, d_model)
     assert not mean_diffs.isnan().any()
 
     torch.save(mean_diffs, f"{artifact_dir}/mean_diffs.pt")

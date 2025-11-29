@@ -150,10 +150,20 @@ def select_direction(
     for source_pos in range(-n_pos, 0):
         for source_layer in tqdm(range(n_layer), desc=f"Computing KL for source position {source_pos}"):
 
+            model_config = model_base.model.config
+            # Handle both text-only and multimodal Gemma 3 models
+            # Multimodal models have text_config, text-only models have config directly
+            if hasattr(model_config, 'text_config'):
+                # Multimodal model (Gemma3ForConditionalGeneration)
+                num_hidden_layers = model_config.text_config.num_hidden_layers
+            else:
+                # Text-only model (Gemma3ForCausalLM) or other models
+                num_hidden_layers = model_config.num_hidden_layers
+
             ablation_dir = candidate_directions[source_pos, source_layer]
-            fwd_pre_hooks = [(model_base.model_block_modules[layer], get_direction_ablation_input_pre_hook(direction=ablation_dir)) for layer in range(model_base.model.config.num_hidden_layers)]
-            fwd_hooks = [(model_base.model_attn_modules[layer], get_direction_ablation_output_hook(direction=ablation_dir)) for layer in range(model_base.model.config.num_hidden_layers)]
-            fwd_hooks += [(model_base.model_mlp_modules[layer], get_direction_ablation_output_hook(direction=ablation_dir)) for layer in range(model_base.model.config.num_hidden_layers)]
+            fwd_pre_hooks = [(model_base.model_block_modules[layer], get_direction_ablation_input_pre_hook(direction=ablation_dir)) for layer in range(num_hidden_layers)]
+            fwd_hooks = [(model_base.model_attn_modules[layer], get_direction_ablation_output_hook(direction=ablation_dir)) for layer in range(num_hidden_layers)]
+            fwd_hooks += [(model_base.model_mlp_modules[layer], get_direction_ablation_output_hook(direction=ablation_dir)) for layer in range(num_hidden_layers)]
 
             intervention_logits: Float[Tensor, "n_instructions 1 d_vocab"] = get_last_position_logits(
                 model=model_base.model,
@@ -170,10 +180,20 @@ def select_direction(
     for source_pos in range(-n_pos, 0):
         for source_layer in tqdm(range(n_layer), desc=f"Computing refusal ablation for source position {source_pos}"):
 
+            model_config = model_base.model.config
+            # Handle both text-only and multimodal Gemma 3 models
+            # Multimodal models have text_config, text-only models have config directly
+            if hasattr(model_config, 'text_config'):
+                # Multimodal model (Gemma3ForConditionalGeneration)
+                num_hidden_layers = model_config.text_config.num_hidden_layers
+            else:
+                # Text-only model (Gemma3ForCausalLM) or other models
+                num_hidden_layers = model_config.num_hidden_layers
+
             ablation_dir = candidate_directions[source_pos, source_layer]
-            fwd_pre_hooks = [(model_base.model_block_modules[layer], get_direction_ablation_input_pre_hook(direction=ablation_dir)) for layer in range(model_base.model.config.num_hidden_layers)]
-            fwd_hooks = [(model_base.model_attn_modules[layer], get_direction_ablation_output_hook(direction=ablation_dir)) for layer in range(model_base.model.config.num_hidden_layers)]
-            fwd_hooks += [(model_base.model_mlp_modules[layer], get_direction_ablation_output_hook(direction=ablation_dir)) for layer in range(model_base.model.config.num_hidden_layers)]
+            fwd_pre_hooks = [(model_base.model_block_modules[layer], get_direction_ablation_input_pre_hook(direction=ablation_dir)) for layer in range(num_hidden_layers)]
+            fwd_hooks = [(model_base.model_attn_modules[layer], get_direction_ablation_output_hook(direction=ablation_dir)) for layer in range(num_hidden_layers)]
+            fwd_hooks += [(model_base.model_mlp_modules[layer], get_direction_ablation_output_hook(direction=ablation_dir)) for layer in range(num_hidden_layers)]
 
             refusal_scores = get_refusal_scores(model_base.model, harmful_instructions, model_base.tokenize_instructions_fn, model_base.refusal_toks, fwd_pre_hooks=fwd_pre_hooks, fwd_hooks=fwd_hooks, batch_size=batch_size)
             ablation_refusal_scores[source_pos, source_layer] = refusal_scores.mean().item()

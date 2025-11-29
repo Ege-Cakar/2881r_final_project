@@ -2,7 +2,11 @@ import torch
 import random
 import json
 import os
+import sys
 import argparse
+
+# Add project root to path
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from dataset.load_dataset import load_dataset_split, load_dataset
 

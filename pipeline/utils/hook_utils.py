@@ -81,9 +81,20 @@ def get_all_direction_ablation_hooks(
     model_base,
     direction: Float[Tensor, 'd_model'],
 ):
-    fwd_pre_hooks = [(model_base.model_block_modules[layer], get_direction_ablation_input_pre_hook(direction=direction)) for layer in range(model_base.model.config.num_hidden_layers)]
-    fwd_hooks = [(model_base.model_attn_modules[layer], get_direction_ablation_output_hook(direction=direction)) for layer in range(model_base.model.config.num_hidden_layers)]
-    fwd_hooks += [(model_base.model_mlp_modules[layer], get_direction_ablation_output_hook(direction=direction)) for layer in range(model_base.model.config.num_hidden_layers)]
+
+    model_config = model_base.model.config
+    # Handle both text-only and multimodal Gemma 3 models
+    # Multimodal models have text_config, text-only models have config directly
+    if hasattr(model_config, 'text_config'):
+        # Multimodal model (Gemma3ForConditionalGeneration)
+        num_hidden_layers = model_config.text_config.num_hidden_layers
+    else:
+        # Text-only model (Gemma3ForCausalLM) or other models
+        num_hidden_layers = model_config.num_hidden_layers
+
+    fwd_pre_hooks = [(model_base.model_block_modules[layer], get_direction_ablation_input_pre_hook(direction=direction)) for layer in range(num_hidden_layers)]
+    fwd_hooks = [(model_base.model_attn_modules[layer], get_direction_ablation_output_hook(direction=direction)) for layer in range(num_hidden_layers)]
+    fwd_hooks += [(model_base.model_mlp_modules[layer], get_direction_ablation_output_hook(direction=direction)) for layer in range(num_hidden_layers)]
 
     return fwd_pre_hooks, fwd_hooks
 
