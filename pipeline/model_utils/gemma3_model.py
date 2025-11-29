@@ -68,19 +68,35 @@ def tokenize_instructions_gemma3_chat(
     return result
 
 def orthogonalize_gemma3_weights(model: AutoTokenizer, direction: Float[Tensor, "d_model"]):
-    model.model.embed_tokens.weight.data = get_orthogonalized_matrix(model.model.embed_tokens.weight.data, direction)
+    # Handle both text-only (Gemma3ForCausalLM) and multimodal (Gemma3ForConditionalGeneration)
+    if hasattr(model, 'language_model'):
+        # Multimodal: model.language_model
+        lang_model = model.language_model
+    else:
+        # Text-only: model.model
+        lang_model = model.model
 
-    for block in model.model.layers:
+    lang_model.embed_tokens.weight.data = get_orthogonalized_matrix(lang_model.embed_tokens.weight.data, direction)
+
+    for block in lang_model.layers:
         block.self_attn.o_proj.weight.data = get_orthogonalized_matrix(block.self_attn.o_proj.weight.data.T, direction).T
         block.mlp.down_proj.weight.data = get_orthogonalized_matrix(block.mlp.down_proj.weight.data.T, direction).T
 
 def act_add_gemma3_weights(model, direction: Float[Tensor, "d_model"], coeff, layer):
-    dtype = model.model.layers[layer-1].mlp.down_proj.weight.dtype
-    device = model.model.layers[layer-1].mlp.down_proj.weight.device
+    # Handle both text-only (Gemma3ForCausalLM) and multimodal (Gemma3ForConditionalGeneration)
+    if hasattr(model, 'language_model'):
+        # Multimodal: model.language_model.layers
+        layers = model.language_model.layers
+    else:
+        # Text-only: model.model.layers
+        layers = model.model.layers
+
+    dtype = layers[layer-1].mlp.down_proj.weight.dtype
+    device = layers[layer-1].mlp.down_proj.weight.device
 
     bias = (coeff * direction).to(dtype=dtype, device=device)
 
-    model.model.layers[layer-1].mlp.down_proj.bias = torch.nn.Parameter(bias)
+    layers[layer-1].mlp.down_proj.bias = torch.nn.Parameter(bias)
 
 
 class Gemma3Model(ModelBase):
@@ -112,7 +128,13 @@ class Gemma3Model(ModelBase):
         return GEMMA3_REFUSAL_TOKS
 
     def _get_model_block_modules(self):
-        return self.model.model.layers
+        # Handle both text-only (Gemma3ForCausalLM) and multimodal (Gemma3ForConditionalGeneration)
+        if hasattr(self.model, 'language_model'):
+            # Multimodal: model.language_model.layers
+            return self.model.language_model.layers
+        else:
+            # Text-only: model.model.layers
+            return self.model.model.layers
 
     def _get_attn_modules(self):
         return torch.nn.ModuleList([block_module.self_attn for block_module in self.model_block_modules])
