@@ -170,14 +170,15 @@ def extract_response_activations(
         Same list of dicts with added 'activations' key
         activations shape: [n_layers, d_model] (averaged across response tokens, excludes embedding layer)
     """
+    model_config = model.config
     # Handle both text-only and multimodal Gemma 3 models
     # Multimodal models have text_config, text-only models have config directly
     if hasattr(model_config, 'text_config'):
         # Multimodal model (Gemma3ForConditionalGeneration)
-        n_layers = model.config.text_config.num_hidden_layers
+        n_layers = model_config.text_config.num_hidden_layers
     else:
         # Text-only model (Gemma3ForCausalLM) or other models
-        n_layers = model.config.num_hidden_layers
+        n_layers = model_config.num_hidden_layers
 
     results = []
 
