@@ -82,7 +82,7 @@ def select_best_layer_by_steering(
     print(f"\nEvaluating refusal induction for each layer...")
     for layer in tqdm(range(n_layers), desc="Computing steering scores"):
         layer_vector = refusal_vector[layer]
-        coeff = 1.0
+        coeff = torch.tensor(1.0)
 
         # Apply activation addition at this layer
         fwd_pre_hooks = [(
@@ -93,7 +93,7 @@ def select_best_layer_by_steering(
         # Measure refusal scores with intervention
         refusal_scores = get_refusal_scores(
             model=model_base.model,
-            instructions=validation_instructions,
+            instructions=validation_instructions, # Sampled queries from ALPACA
             tokenize_instructions_fn=model_base.tokenize_instructions_fn,
             refusal_toks=model_base.refusal_toks,
             fwd_pre_hooks=fwd_pre_hooks,
@@ -180,7 +180,7 @@ def evaluate_refusal_vector(
             # Activation addition
             fwd_pre_hooks = [(
                 model_base.model_block_modules[layer],
-                get_activation_addition_input_pre_hook(vector=refusal_vector, coeff=coeff)
+                get_activation_addition_input_pre_hook(vector=refusal_vector, coeff=torch.tensor(coeff))
             )]
 
         completions = model_base.generate_completions(
